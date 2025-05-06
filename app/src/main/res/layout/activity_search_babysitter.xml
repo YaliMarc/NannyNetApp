@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".SearchBabysitterActivity">
+
+    <!-- כותרת -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingBottom="16dp"
+        android:text=" Babysitter Search"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <!-- שדה להזנת מיקום -->
+    <EditText
+        android:id="@+id/locationInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@android:drawable/ic_menu_mylocation"
+        android:hint="Location"
+        android:padding="10dp" />
+
+    <!-- שדה להזנת תאריך -->
+    <EditText
+        android:id="@+id/dateInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@android:drawable/ic_menu_today"
+        android:focusable="false"
+        android:hint="Date (YYYY-MM-DD)"
+        android:padding="10dp" />
+
+    <!-- שעת התחלה -->
+    <EditText
+        android:id="@+id/startTimeInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@android:drawable/ic_menu_recent_history"
+        android:focusable="false"
+        android:hint="Start time (HH:MM)"
+        android:padding="10dp" />
+
+    <!-- שעת סיום -->
+    <EditText
+        android:id="@+id/endTimeInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@android:drawable/ic_menu_recent_history"
+        android:focusable="false"
+        android:hint="End time (HH:MM)"
+        android:padding="10dp" />
+
+    <!-- טווח שכר -->
+    <EditText
+        android:id="@+id/salaryRangeInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@android:drawable/ic_menu_sort_by_size"
+        android:hint="Salary range (e.g. 50-100 NIS per hour)"
+        android:inputType="number"
+        android:padding="10dp" />
+
+    <!-- כפתור חיפוש -->
+    <Button
+        android:id="@+id/searchBabysitterButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/purple_500"
+        android:text="Look for a babysitter"
+        android:textColor="@android:color/white" />
+
+    <!-- רשימת תוצאות חיפוש -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/babysitterRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp" />
+</LinearLayout>

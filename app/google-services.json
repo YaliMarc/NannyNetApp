@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "456631935058",
+    "project_id": "nannynetapp",
+    "storage_bucket": "nannynetapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456631935058:android:b2fb3e6e998c3b5b50ff8b",
+        "android_client_info": {
+          "package_name": "com.example.nannynetapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDngJn88jfudfTU7ewRB9eRDPoJIQliww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
