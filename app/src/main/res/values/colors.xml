@@ -5,6 +5,8 @@
     <color name="black">#000000</color>
     <color name="gray">#757575</color>
     <color name="purple_500">#6200EE</color>
+    <color name="primary">#3F51B5</color> <!-- צבע כחול מודרני -->
+
 
 
 </resources>

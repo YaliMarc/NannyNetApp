@@ -16,6 +16,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        jcenter ()
+
+        maven { url 'https://jitpack.io' }
+        maven { url "https://webrtc.github.io/webrtc-org/native-code/development" }
     }
 }
 
