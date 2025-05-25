@@ -3,143 +3,135 @@ package com.example.nannynetapp;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private EditText messageInput;
-    private ImageButton sendButton, imageButton, videoCallButton;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_CAMERA_PERMISSION = 100;
+    private Spinner recipientSpinner;
+    private TextInputEditText messageInput;
+    private ImageButton sendButton, cameraButton, videoCallButton;
+    private RecyclerView messagesRecyclerView;
 
-    private static final int IMAGE_PICK_CODE = 1001;
-    private static final int CAMERA_PERMISSION_CODE = 1002;
-
-    private FirebaseUser currentUser;
-    private String recipientId; // יש לעדכן לפי מי שנבחר בצ'אט
-
-    private DatabaseReference chatRef;
-    private StorageReference storageRef;
+    private FirebaseAuth auth;
+    private DatabaseReference messagesRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
+        // התחברות ל־Firebase
+        auth = FirebaseAuth.getInstance();
+        messagesRef = FirebaseDatabase.getInstance().getReference("messages");
+
+        // איתחול רכיבים
+        recipientSpinner = findViewById(R.id.recipientSpinner);
         messageInput = findViewById(R.id.messageInput);
         sendButton = findViewById(R.id.sendButton);
-        imageButton = findViewById(R.id.imageButton);
-        videoCallButton = findViewById(R.id.videoCallButton);
-
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        recipientId = getIntent().getStringExtra("recipientId"); // מעביר את מזהה הנמען
-
-        chatRef = FirebaseDatabase.getInstance().getReference("Chats");
-        storageRef = FirebaseStorage.getInstance().getReference("ChatImages");
+        cameraButton = findViewById(R.id.cameraButton);
+        messagesRecyclerView = findViewById(R.id.messagesRecyclerView);
 
         sendButton.setOnClickListener(view -> sendMessage());
 
-        imageButton.setOnClickListener(view -> pickImageFromGallery());
+        cameraButton.setOnClickListener(view -> {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+            } else {
+                openCamera();
+            }
+        });
 
-        videoCallButton.setOnClickListener(view -> checkCameraPermissionAndStartVideoCall());
     }
 
     private void sendMessage() {
-        String msg = messageInput.getText().toString().trim();
-        if (!msg.isEmpty()) {
-            HashMap<String, Object> messageData = new HashMap<>();
-            messageData.put("sender", currentUser.getUid());
-            messageData.put("receiver", recipientId);
-            messageData.put("message", msg);
-            messageData.put("type", "text");
-            messageData.put("timestamp", System.currentTimeMillis());
+        String messageText = messageInput.getText().toString().trim();
+        String recipient = recipientSpinner.getSelectedItem().toString();
+        String senderId = auth.getCurrentUser().getUid();
 
-            chatRef.push().setValue(messageData);
-            messageInput.setText("");
+        if (TextUtils.isEmpty(messageText)) {
+            messageInput.setError("Write something...");
+            return;
         }
+
+        String messageId = messagesRef.push().getKey();
+
+        Map<String, Object> messageData = new HashMap<>();
+        messageData.put("senderId", senderId);
+        messageData.put("recipient", recipient);
+        messageData.put("message", messageText);
+        messageData.put("timestamp", System.currentTimeMillis());
+
+        messagesRef.child(messageId).setValue(messageData);
+        messageInput.setText("");
     }
 
-    private void pickImageFromGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, IMAGE_PICK_CODE);
+    private void openCamera() {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == IMAGE_PICK_CODE && resultCode == RESULT_OK && data != null) {
-            Uri imageUri = data.getData();
-            uploadImageToFirebase(imageUri);
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+
+            // הפיכת התמונה ל־Base64 או העלאה ל־Firebase Storage (לא חובה כעת)
+            // הדוגמה כאן שומרת רק טקסט בתור תיאור
+            sendMessageWithImage("Image sent.");
         }
     }
 
-    private void uploadImageToFirebase(Uri imageUri) {
-        if (imageUri != null) {
-            String fileName = System.currentTimeMillis() + ".jpg";
-            StorageReference imageRef = storageRef.child(fileName);
+    private void sendMessageWithImage(String description) {
+        String recipient = recipientSpinner.getSelectedItem().toString();
+        String senderId = auth.getCurrentUser().getUid();
+        String messageId = messagesRef.push().getKey();
 
-            imageRef.putFile(imageUri).addOnSuccessListener(taskSnapshot ->
-                    imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                        HashMap<String, Object> imageMessage = new HashMap<>();
-                        imageMessage.put("sender", currentUser.getUid());
-                        imageMessage.put("receiver", recipientId);
-                        imageMessage.put("message", uri.toString());
-                        imageMessage.put("type", "image");
-                        imageMessage.put("timestamp", System.currentTimeMillis());
+        Map<String, Object> messageData = new HashMap<>();
+        messageData.put("senderId", senderId);
+        messageData.put("recipient", recipient);
+        messageData.put("imageMessage", description);
+        messageData.put("timestamp", System.currentTimeMillis());
 
-                        chatRef.push().setValue(imageMessage);
-                    })
-            ).addOnFailureListener(e ->
-                    Toast.makeText(this, "Image upload failed", Toast.LENGTH_SHORT).show()
-            );
-        }
-    }
-
-    private void checkCameraPermissionAndStartVideoCall() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
-        } else {
-            startVideoCall();
-        }
+        messagesRef.child(messageId).setValue(messageData);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == CAMERA_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startVideoCall();
-            } else {
-                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
-    private void startVideoCall() {
-        // מעבר למסך שיחת וידאו, לדוגמה:
-        Intent intent = new Intent(this, VideoCallActivity.class);
-        intent.putExtra("recipientId", recipientId);
-        startActivity(intent);
+        if (requestCode == REQUEST_CAMERA_PERMISSION && grantResults.length > 0 &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            openCamera();
+        }
     }
 }

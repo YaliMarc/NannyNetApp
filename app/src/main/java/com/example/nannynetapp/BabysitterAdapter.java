@@ -5,52 +5,54 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
-public class BabysitterAdapter extends RecyclerView.Adapter<BabysitterAdapter.BabysitterViewHolder> {
+public class BabysitterAdapter extends RecyclerView.Adapter<BabysitterAdapter.BabySitterViewHolder> {
 
     private Context context;
-    private List<Babysitter> babysitterList;
+    private List<Babysitter> babySitterList;
 
-    public BabysitterAdapter(Context context, List<Babysitter> babysitterList) {
+    public BabysitterAdapter(Context context, List<Babysitter> babySitterList) {
         this.context = context;
-        this.babysitterList = babysitterList;
+        this.babySitterList = babySitterList;
     }
 
     @NonNull
     @Override
-    public BabysitterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BabySitterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_babysitter, parent, false);
-        return new BabysitterViewHolder(view);
+        return new BabySitterViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BabysitterViewHolder holder, int position) {
-        Babysitter babysitter = babysitterList.get(position);
-        holder.nameTextView.setText(babysitter.getFullName());
-        holder.locationTextView.setText("מיקום: " + babysitter.getLocation());
-        holder.salaryTextView.setText("שכר: " + babysitter.getSalary() + "₪");
-        holder.datesTextView.setText("תאריכים זמינים: " + babysitter.getAvailableDates());
-        holder.hoursTextView.setText("שעות זמינות: " + babysitter.getAvailableHours());
+    public void onBindViewHolder(@NonNull BabySitterViewHolder holder, int position) {
+        Babysitter babySitter = babySitterList.get(position);
+
+        holder.nameText.setText(babySitter.getName());
+        holder.locationText.setText("מיקום: " + babySitter.getLocation());
+        holder.dateText.setText("תאריך: " + babySitter.getDate());
+        holder.timeRangeText.setText("שעות: " + babySitter.getStartTime() + " - " + babySitter.getEndTime());
     }
 
     @Override
     public int getItemCount() {
-        return babysitterList.size();
+        return babySitterList.size();
     }
 
-    public static class BabysitterViewHolder extends RecyclerView.ViewHolder {
-        TextView nameTextView, locationTextView, salaryTextView, datesTextView, hoursTextView;
+    public static class BabySitterViewHolder extends RecyclerView.ViewHolder {
 
-        public BabysitterViewHolder(@NonNull View itemView) {
+        TextView nameText, locationText, dateText, timeRangeText;
+
+        public BabySitterViewHolder(@NonNull View itemView) {
             super(itemView);
-            nameTextView = itemView.findViewById(R.id.babysitterName);
-            locationTextView = itemView.findViewById(R.id.babysitterLocation);
-            salaryTextView = itemView.findViewById(R.id.babysitterSalary);
-            datesTextView = itemView.findViewById(R.id.babysitterDates);
-            hoursTextView = itemView.findViewById(R.id.babysitterHours);
+            nameText = itemView.findViewById(R.id.babysitterName);
+            locationText = itemView.findViewById(R.id.babysitterLocation);
+            dateText = itemView.findViewById(R.id.babysitterDate);
+            timeRangeText = itemView.findViewById(R.id.babysitterTimeRange);
         }
     }
 }
