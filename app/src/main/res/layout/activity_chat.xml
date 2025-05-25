@@ -28,10 +28,9 @@
         android:id="@+id/sendButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:background="@null"
+        android:background="@drawable/ic_send"
         android:src="@drawable/ic_send"
         android:contentDescription="Send message"
-        app:tint="@color/primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/messageInput" />
 
@@ -40,10 +39,9 @@
         android:id="@+id/imageButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:background="@null"
+        android:background="@drawable/ic_camera"
         android:src="@drawable/ic_camera"
         android:contentDescription="Send image"
-        app:tint="@color/primary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/messageInput"
         android:layout_marginBottom="8dp"/>
@@ -53,10 +51,9 @@
         android:id="@+id/videoCallButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:background="@null"
+        android:background="@drawable/ic_video_call"
         android:src="@drawable/ic_video_call"
         android:contentDescription="Video call"
-        app:tint="@color/primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/messageInput"
         android:layout_marginBottom="8dp"/>
