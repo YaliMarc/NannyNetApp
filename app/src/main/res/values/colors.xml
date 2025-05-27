@@ -6,7 +6,5 @@
     <color name="gray">#757575</color>
     <color name="purple_500">#6200EE</color>
     <color name="primary">#3F51B5</color> <!-- צבע כחול מודרני -->
-
-
-
+    <color name="colorSuccess">#4CAF50</color> <!-- צבע ירוק להצלחה -->
 </resources>

@@ -11,11 +11,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+/**
+ * The type Babysitter adapter.
+ */
 public class BabysitterAdapter extends RecyclerView.Adapter<BabysitterAdapter.BabySitterViewHolder> {
 
     private Context context;
     private List<Babysitter> babySitterList;
 
+    /**
+     * Instantiates a new Babysitter adapter.
+     *
+     * @param context        the context
+     * @param babySitterList the baby sitter list
+     */
     public BabysitterAdapter(Context context, List<Babysitter> babySitterList) {
         this.context = context;
         this.babySitterList = babySitterList;
@@ -43,10 +52,30 @@ public class BabysitterAdapter extends RecyclerView.Adapter<BabysitterAdapter.Ba
         return babySitterList.size();
     }
 
+    /**
+     * The type Baby sitter view holder.
+     */
     public static class BabySitterViewHolder extends RecyclerView.ViewHolder {
 
-        TextView nameText, locationText, dateText, timeRangeText;
+        /**
+         * The Name text.
+         */
+        TextView nameText, /**
+         * The Location text.
+         */
+        locationText, /**
+         * The Date text.
+         */
+        dateText, /**
+         * The Time range text.
+         */
+        timeRangeText;
 
+        /**
+         * Instantiates a new Baby sitter view holder.
+         *
+         * @param itemView the item view
+         */
         public BabySitterViewHolder(@NonNull View itemView) {
             super(itemView);
             nameText = itemView.findViewById(R.id.babysitterName);

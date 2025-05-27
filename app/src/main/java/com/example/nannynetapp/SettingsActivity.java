@@ -24,6 +24,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
 
+/**
+ * The type Settings activity.
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;

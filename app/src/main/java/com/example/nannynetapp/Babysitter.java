@@ -1,5 +1,8 @@
 package com.example.nannynetapp;
 
+/**
+ * The type Babysitter.
+ */
 public class Babysitter {
 
         private String name;
@@ -8,10 +11,22 @@ public class Babysitter {
         private String startTime;
         private String endTime;
 
-        // דרוש לפיירבייס
+    /**
+     * Instantiates a new Babysitter.
+     */
+// דרוש לפיירבייס
         public Babysitter() {}
 
-        public Babysitter(String name, String location, String date, String startTime, String endTime) {
+    /**
+     * Instantiates a new Babysitter.
+     *
+     * @param name      the name
+     * @param location  the location
+     * @param date      the date
+     * @param startTime the start time
+     * @param endTime   the end time
+     */
+    public Babysitter(String name, String location, String date, String startTime, String endTime) {
             this.name = name;
             this.location = location;
             this.date = date;
@@ -19,43 +34,93 @@ public class Babysitter {
             this.endTime = endTime;
         }
 
-        public String getName() {
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
+    public String getName() {
             return name;
         }
 
-        public String getLocation() {
+    /**
+     * Gets location.
+     *
+     * @return the location
+     */
+    public String getLocation() {
             return location;
         }
 
-        public String getDate() {
+    /**
+     * Gets date.
+     *
+     * @return the date
+     */
+    public String getDate() {
             return date;
         }
 
-        public String getStartTime() {
+    /**
+     * Gets start time.
+     *
+     * @return the start time
+     */
+    public String getStartTime() {
             return startTime;
         }
 
-        public String getEndTime() {
+    /**
+     * Gets end time.
+     *
+     * @return the end time
+     */
+    public String getEndTime() {
             return endTime;
         }
 
-        public void setName(String name) {
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
+    public void setName(String name) {
             this.name = name;
         }
 
-        public void setLocation(String location) {
+    /**
+     * Sets location.
+     *
+     * @param location the location
+     */
+    public void setLocation(String location) {
             this.location = location;
         }
 
-        public void setDate(String date) {
+    /**
+     * Sets date.
+     *
+     * @param date the date
+     */
+    public void setDate(String date) {
             this.date = date;
         }
 
-        public void setStartTime(String startTime) {
+    /**
+     * Sets start time.
+     *
+     * @param startTime the start time
+     */
+    public void setStartTime(String startTime) {
             this.startTime = startTime;
         }
 
-        public void setEndTime(String endTime) {
+    /**
+     * Sets end time.
+     *
+     * @param endTime the end time
+     */
+    public void setEndTime(String endTime) {
             this.endTime = endTime;
         }
     }

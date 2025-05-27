@@ -24,6 +24,9 @@ import com.google.firebase.database.DatabaseError;
 
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * The type Home activity.
+ */
 public class HomeActivity extends AppCompatActivity {
 
     private Button searchBabysitterBtn, lookingForJobBtn, settingsBtn, chatBtn;

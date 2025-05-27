@@ -18,6 +18,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Calendar;
 import java.util.HashMap;
 
+/**
+ * The type Search parent activity.
+ */
 public class SearchParentActivity extends AppCompatActivity {
 
     private EditText locationInput, dateInput, startTimeInput, endTimeInput;
@@ -35,7 +38,7 @@ public class SearchParentActivity extends AppCompatActivity {
         endTimeInput = findViewById(R.id.endTimeInput);
         searchButton = findViewById(R.id.searchButton);
 
-        databaseRef = FirebaseDatabase.getInstance().getReference("SearchRequests");
+        databaseRef = FirebaseDatabase.getInstance().getReference("Jobs");
 
         // בחירת תאריך
         dateInput.setOnClickListener(v -> showDatePicker(dateInput));
@@ -45,7 +48,7 @@ public class SearchParentActivity extends AppCompatActivity {
         endTimeInput.setOnClickListener(v -> showTimePicker(endTimeInput));
 
         // כפתור חיפוש ושמירה
-        searchButton.setOnClickListener(view -> saveSearchRequest());
+        searchButton.setOnClickListener(view -> saveJobRequest());
     }
 
     private void showDatePicker(EditText editText) {
@@ -66,7 +69,7 @@ public class SearchParentActivity extends AppCompatActivity {
         timePickerDialog.show();
     }
 
-    private void saveSearchRequest() {
+    private void saveJobRequest() {
         String location = locationInput.getText().toString().trim();
         String date = dateInput.getText().toString().trim();
         String startTime = startTimeInput.getText().toString().trim();
@@ -77,22 +80,26 @@ public class SearchParentActivity extends AppCompatActivity {
             return;
         }
 
-        String requestId = databaseRef.push().getKey();
+        String jobId = databaseRef.push().getKey();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         String userId = currentUser != null ? currentUser.getUid() : "";
 
-        if (requestId != null && !userId.isEmpty()) {
-            HashMap<String, String> requestData = new HashMap<>();
-            requestData.put("userId", userId);
-            requestData.put("location", location);
-            requestData.put("date", date);
-            requestData.put("startTime", startTime);
-            requestData.put("endTime", endTime);
+        if (jobId != null && !userId.isEmpty()) {
+            HashMap<String, Object> jobData = new HashMap<>();
+            jobData.put("userId", userId);
+            jobData.put("location", location);
+            jobData.put("date", date);
+            jobData.put("startTime", startTime);
+            jobData.put("endTime", endTime);
+            jobData.put("status", "pending");
+            jobData.put("parentConfirmed", false);
+            jobData.put("babysitterConfirmed", false);
+            jobData.put("jobId", jobId);
 
-            databaseRef.child(requestId).setValue(requestData)
+            databaseRef.child(jobId).setValue(jobData)
                     .addOnSuccessListener(unused -> {
-                        // מעבר למסך MatchingJobsActivity
                         Intent intent = new Intent(SearchParentActivity.this, MatchingJobsActivity.class);
+                        intent.putExtra("jobId", jobId);
                         startActivity(intent);
                     })
                     .addOnFailureListener(e ->

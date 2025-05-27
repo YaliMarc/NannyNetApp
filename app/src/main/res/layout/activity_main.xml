@@ -6,65 +6,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:padding="20dp"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!-- App Logo -->
-        <ImageView
-            android:id="@+id/appLogo"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="80dp"
-            android:src="@drawable/ic_app_logo"
-            android:contentDescription="@string/app_logo"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Welcome Text -->
         <TextView
-            android:id="@+id/welcomeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome to NannyNet"
+            android:text="ברוכים הבאים ל-NannyNet"
             android:textSize="24sp"
-            android:textColor="@color/black"
-            android:layout_marginTop="20dp"
-            android:fontFamily="sans-serif-medium"
-            app:layout_constraintTop_toBottomOf="@id/appLogo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
+            android:textColor="@android:color/black"/>
 
-        <!-- Description -->
         <TextView
-            android:id="@+id/descriptionText"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Easily connect with trusted babysitters near you."
+            android:text="המקום למצוא את הבייביסיטר או ההורה המושלם"
             android:textSize="16sp"
-            android:textColor="@color/gray"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@id/welcomeText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_marginBottom="40dp"
+            android:gravity="center"/>
 
-        <!-- Get Started Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/getStartedButton"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Get Started"
-            android:layout_marginTop="40dp"
-            android:backgroundTint="@color/teal_700"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:cornerRadius="16dp"
-            app:layout_constraintTop_toBottomOf="@id/descriptionText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:text="בואו נתחיל!"
+            android:textSize="18sp"
+            android:padding="12dp"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 

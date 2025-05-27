@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -22,8 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
-
+/**
+ * The type Sign up activity.
+ */
 public class SignUpActivity extends AppCompatActivity {
 
     private TextInputEditText fullNameInput, emailInput, passwordInput;
@@ -38,18 +38,18 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        // אתחול Firebase
+        // Initialize Firebase
         auth = FirebaseAuth.getInstance();
         databaseRef = FirebaseDatabase.getInstance().getReference("Users");
 
-        // חיבור רכיבים
+        // Initialize UI components
         fullNameInput = findViewById(R.id.inputFullName);
         emailInput = findViewById(R.id.inputEmail);
         passwordInput = findViewById(R.id.inputPassword);
         signUpButton = findViewById(R.id.signupButton);
         roleGroup = findViewById(R.id.radioGroupRole);
 
-        // האזנה ללחיצת כפתור הרשמה
+        // Set up sign up button click listener
         signUpButton.setOnClickListener(view -> checkIfUserExists());
     }
 
@@ -61,7 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        // בדיקה אם המשתמש כבר קיים ב- Realtime Database לפי אימייל
+        // Check if user exists in Realtime Database by email
         databaseRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -84,7 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
         String email = emailInput.getText().toString().trim();
         String password = passwordInput.getText().toString().trim();
 
-        // בדיקות תקינות קלט
+        // Input validation
         if (TextUtils.isEmpty(fullName)) {
             fullNameInput.setError("יש להזין שם מלא");
             return;
@@ -95,7 +95,7 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        // קבלת סוג המשתמש (Parent / Babysitter)
+        // Get user type (Parent / Babysitter)
         int selectedRoleId = roleGroup.getCheckedRadioButtonId();
         if (selectedRoleId == -1) {
             Toast.makeText(this, "יש לבחור תפקיד (הורה או בייביסיטר)", Toast.LENGTH_SHORT).show();
@@ -104,7 +104,7 @@ public class SignUpActivity extends AppCompatActivity {
         RadioButton selectedRoleButton = findViewById(selectedRoleId);
         String userType = selectedRoleButton.getText().toString();
 
-        // יצירת משתמש ב-Firebase Authentication
+        // Create user in Firebase Authentication
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -119,14 +119,11 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void saveUserToDatabase(String userId, String fullName, String email, String userType) {
-        // יצירת אובייקט HashMap עם פרטי המשתמש
-        HashMap<String, Object> userMap = new HashMap<>();
-        userMap.put("fullName", fullName);
-        userMap.put("email", email);
-        userMap.put("userType", userType);
+        // Create a new User object
+        User user = new User(userId, fullName, email, userType);
 
-        // שמירת המשתמש ב-Firebase Realtime Database
-        databaseRef.child(userId).setValue(userMap).addOnCompleteListener(task -> {
+        // Save the user to Firebase Realtime Database
+        databaseRef.child(userId).setValue(user).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(SignUpActivity.this, "ההרשמה הצליחה!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(SignUpActivity.this, HomeActivity.class));
@@ -136,23 +133,6 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
-}
-// User Model Class
-class User {
-    private String fullName, email, role;
-
-    public User() {}
-
-    public User(String fullName, String email, String role) {
-        this.fullName = fullName;
-        this.email = email;
-        this.role = role;
-    }
-
-    // Getters (needed for Firestore)
-    public String getFullName() { return fullName; }
-    public String getEmail() { return email; }
-    public String getRole() { return role; }
 }
 
 

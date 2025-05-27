@@ -14,74 +14,124 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:paddingBottom="16dp"
-        android:text=" Babysitter Search"
+        android:text="חיפוש עבודה"
         android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
 
-    <!-- שדה להזנת מיקום -->
-    <EditText
-        android:id="@+id/locationInput"
+    <!-- טופס חיפוש -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@android:drawable/ic_menu_mylocation"
-        android:hint="Location"
-        android:padding="10dp" />
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp">
 
-    <!-- שדה להזנת תאריך -->
-    <EditText
-        android:id="@+id/dateInput"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <EditText
+                android:id="@+id/locationInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="מיקום"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/dateInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="תאריך"
+                android:focusable="false"
+                android:clickable="true"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <EditText
+                    android:id="@+id/startTimeInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="שעת התחלה"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:layout_marginEnd="4dp"/>
+
+                <EditText
+                    android:id="@+id/endTimeInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="שעת סיום"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:layout_marginStart="4dp"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/searchButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="חפש עבודה"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- הודעה כשאין תוצאות -->
+    <TextView
+        android:id="@+id/noJobsText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@android:drawable/ic_menu_today"
-        android:focusable="false"
-        android:hint="Date (YYYY-MM-DD)"
-        android:padding="10dp" />
+        android:text="לא נמצאו הצעות עבודה מתאימות"
+        android:textAlignment="center"
+        android:visibility="gone"/>
 
-    <!-- שעת התחלה -->
-    <EditText
-        android:id="@+id/startTimeInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableStart="@android:drawable/ic_menu_recent_history"
-        android:focusable="false"
-        android:hint="Start time (HH:MM)"
-        android:padding="10dp" />
-
-    <!-- שעת סיום -->
-    <EditText
-        android:id="@+id/endTimeInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableStart="@android:drawable/ic_menu_recent_history"
-        android:focusable="false"
-        android:hint="End time (HH:MM)"
-        android:padding="10dp" />
-
-    <!-- טווח שכר -->
-    <EditText
-        android:id="@+id/salaryRangeInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableStart="@android:drawable/ic_menu_sort_by_size"
-        android:hint="Salary range (e.g. 50-100 NIS per hour)"
-        android:inputType="number"
-        android:padding="10dp" />
-
-    <!-- כפתור חיפוש -->
-    <Button
-        android:id="@+id/searchButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/purple_500"
-        android:text="Look for a babysitter"
-        android:textColor="@android:color/white" />
-
-    <!-- רשימת תוצאות חיפוש -->
+    <!-- רשימת הצעות עבודה -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/babysitterRecyclerView"
+        android:id="@+id/jobsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- ההצעות שלי -->
+    <TextView
+        android:id="@+id/myOffersTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ההצעות שלי"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/myOffersRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- בקשות הורים -->
+    <TextView
+        android:id="@+id/parentRequestsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="בקשות הורים מתאימות"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/parentRequestsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
 </LinearLayout>

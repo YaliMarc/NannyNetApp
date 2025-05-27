@@ -16,6 +16,9 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * The type Forgot password activity.
+ */
 public class ForgotPasswordActivity extends AppCompatActivity {
 
     private TextInputEditText inputEmail;
