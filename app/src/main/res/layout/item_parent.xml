@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="12dp"
+    card_view:cardElevation="6dp"
+    android:layout_margin="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/parentFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="שם הורה"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#333" />
+
+        <TextView
+            android:id="@+id/parentLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="מיקום"
+            android:textSize="16sp"
+            android:textColor="#666" />
+
+        <TextView
+            android:id="@+id/parentDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="תאריך"
+            android:textSize="16sp"
+            android:textColor="#666" />
+
+        <TextView
+            android:id="@+id/parentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="שעות"
+            android:textSize="16sp"
+            android:textColor="#666" />
+
+        <TextView
+            android:id="@+id/parentPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="מספר טלפון"
+            android:textSize="16sp"
+            android:textColor="#666" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,811 @@
+@startuml
+class com.example.nannynetapp.Parent {
+- String fullName
+- String location
+- String date
+- String startTime
+- String endTime
+- String phoneNumber
++ <<Create>> Parent()
++ <<Create>> Parent(String,String,String,String,String,String)
++ String getFullName()
++ String getLocation()
++ String getDate()
++ String getStartTime()
++ String getEndTime()
++ String getPhoneNumber()
+}
+
+
+class com.example.nannynetapp.MessageViewHolder {
+~ TextView textMessage
+~ ImageView imageMessage
+~ VideoView videoMessage
+~ TextView messageTime
+~ TextView dateHeader
+~ LinearLayout messageBubble
+~ LinearLayout messageContainer
++ <<Create>> MessageViewHolder(View)
+}
+
+
+class com.example.nannynetapp.SettingsActivity {
+- {static} int PICK_IMAGE_REQUEST
+- {static} int CAMERA_REQUEST
+- ImageView profileImage
+- MaterialButton changeProfilePicBtn
+- Switch notificationsSwitch
+- FirebaseAuth auth
+- DatabaseReference userDatabaseRef
+- StorageReference storageRef
+- Uri imageUri
+# void onCreate(Bundle)
+- void showImagePickerDialog()
+# void onActivityResult(int,int,Intent)
+- void uploadProfilePicture()
+- void confirmDeleteAccount()
+- void deleteAccount()
+}
+
+
+class com.example.nannynetapp.SearchParentActivity {
+- EditText locationInput
+- Button searchButton
+- DatabaseReference databaseRef
+# void onCreate(Bundle)
+- void showDatePicker(EditText)
+- void showTimePicker(EditText)
+- void saveJobRequest()
+}
+
+
+class com.example.nannynetapp.ExampleUnitTest {
++ void addition_isCorrect()
+}
+note top of com.example.nannynetapp.ExampleUnitTest
+
+ * Example local unit test, which will execute on the development machine (host).
+ *
+ * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ 
+end note
+
+
+class com.example.nannynetapp.ChatMessageFragment {
+- {static} String TAG
+- {static} String ARG_CHAT_ID
+- {static} String ARG_RECIPIENT_NAME
+- {static} String ARG_RECIPIENT_IMAGE
+- {static} String ARG_IS_PARENT
+- {static} String ARG_JOB_ID
+- ImageView recipientImage
+- TextView recipientName
+- RecyclerView messagesRecyclerView
+- EditText messageInput
+- FloatingActionButton sendButton
+- ImageButton attachButton
+- Button viewJobButton
+- LinearLayout jobDetailsLayout
+- FirebaseFirestore db
+- FirebaseAuth auth
+- String chatId
+- String recipientDisplayName
+- String recipientImageUrl
+- String currentUserId
+- String jobId
+- ArrayList<Message> messageList
+- MessageAdapter messageAdapter
+- boolean isParent
+- FrameLayout mediaPreviewLayout
+- ImageView imagePreview
+- VideoView videoPreview
+- ImageButton closeMediaButton
+- Uri selectedMediaUri
+- String selectedMediaType
+- {static} int REQUEST_IMAGE_PICK
+- {static} int REQUEST_VIDEO_PICK
+- {static} int REQUEST_CAMERA
++ {static} ChatMessageFragment newInstance(String,String,String,boolean)
++ {static} ChatMessageFragment newInstance(String,String,String,boolean,String)
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onViewCreated(View,Bundle)
+- void loadJobDetails()
+- void listenForJobUpdates()
+- void sendSystemMessage(Message)
+- void listenForMessages()
+- void sendMessage()
+- String getRecipientToken()
+- void showAttachmentOptions()
++ void onActivityResult(int,int,Intent)
+- void showMediaPreview()
+- Uri getImageUri(Context,Bitmap)
+- void sendMediaMessage()
+}
+note left of com.example.nannynetapp.ChatMessageFragment::mediaPreviewLayout
+ Media variables
+end note
+note right of com.example.nannynetapp.ChatMessageFragment::selectedMediaType
+ "image" / "video"
+end note
+
+
+class com.example.nannynetapp.BabysitterAdapter {
+- Context context
+- List<Babysitter> babySitterList
++ <<Create>> BabysitterAdapter(Context,List<Babysitter>)
++ BabySitterViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(BabySitterViewHolder,int)
++ int getItemCount()
+}
+
+
+class com.example.nannynetapp.BabysitterAdapter$BabySitterViewHolder {
+~ TextView nameText
++ <<Create>> BabySitterViewHolder(View)
+}
+
+
+class com.example.nannynetapp.Job {
+- String jobId
+- String parentId
+- String location
+- String date
+- String startTime
+- String endTime
+- long startTimeMillis
+- String status
+- String babySitterId
+- boolean isParentApproved
+- boolean isBabysitterApproved
+- String approvedBy
+- String requirements
+- double minHourlyRate
+- double maxHourlyRate
+- boolean reminderSent
+- String parentName
+- String babysitterName
+- boolean isBabysitterSearch
++ <<Create>> Job()
++ <<Create>> Job(Job)
++ <<Create>> Job(String,String,String,String,String,String,long,String,String,String,double,double,boolean)
++ String getJobId()
++ void setJobId(String)
++ String getParentId()
++ void setParentId(String)
++ String getLocation()
++ void setLocation(String)
++ String getDate()
++ void setDate(String)
++ String getStartTime()
++ void setStartTime(String)
++ String getEndTime()
++ void setEndTime(String)
++ long getStartTimeMillis()
++ void setStartTimeMillis(long)
++ String getStatus()
++ void setStatus(String)
++ String getBabySitterId()
++ void setBabySitterId(String)
++ boolean isParentApproved()
++ void setParentApproved(boolean)
++ boolean isBabysitterApproved()
++ void setBabysitterApproved(boolean)
++ String getApprovedBy()
++ void setApprovedBy(String)
++ String getRequirements()
++ void setRequirements(String)
++ double getMinHourlyRate()
++ void setMinHourlyRate(double)
++ double getMaxHourlyRate()
++ void setMaxHourlyRate(double)
++ boolean isReminderSent()
++ void setReminderSent(boolean)
++ String getParentName()
++ void setParentName(String)
++ String getBabysitterName()
++ void setBabysitterName(String)
++ boolean isBabysitterSearch()
++ void setBabysitterSearch(boolean)
++ boolean isFullyApproved()
++ String getSalaryRangeText()
+}
+note left of com.example.nannynetapp.Job::status
+ "Pending", "Approved", "Completed"
+end note
+note right of com.example.nannynetapp.Job::requirements
+ JSON string of requirements
+end note
+note left of com.example.nannynetapp.Job::isBabysitterSearch
+ true if this is a babysitter searching for jobs
+end note
+
+note left of com.example.nannynetapp.Job::Job()
+ ריקון קונסטרקטור נחוץ ל-Firebase
+end note
+note right of com.example.nannynetapp.Job::Job(Job)
+ קונסטרקטור העתקה
+end note
+note left of com.example.nannynetapp.Job::Job(String,String,String,String,String,String,long,String,String,String,double,double,boolean)
+ קונסטרקטור מלא
+end note
+note right of com.example.nannynetapp.Job::getJobId()
+ GETTERS & SETTERS
+end note
+
+class com.example.nannynetapp.ChatFragment {
+- {static} String TAG
+- RecyclerView recyclerView
+- Button startChatButton
+- FirebaseFirestore db
+- FirebaseAuth auth
+- ChatPreviewAdapter adapter
+- List<ChatPreview> chatList
+- String userType
++ <<Create>> ChatFragment()
++ void onCreate(Bundle)
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
++ void onResume()
+- void openChatFragment(ChatPreview)
+- void loadChatList()
+- boolean isValidChatPartner(String)
+- String getOtherUserId(List<String>,String)
+- void updateStartChatButtonVisibility()
+- void openNewChatDialog()
+- void showNoUsersFoundMessage(String)
+- void showSelectionDialog(List<String>,Map<String,String>)
+- void createNewChat(String,String)
+}
+
+
+class com.example.nannynetapp.MatchingJobsActivity {
+- RecyclerView matchingJobsRecyclerView
+- TextView noMatchesText
+- DatabaseReference databaseRef
+- FirebaseAuth auth
+- String userType
+- MatchingJobsAdapter adapter
+- {static} String CHANNEL_ID
+- {static} int NOTIFICATION_ID
+# void onCreate(Bundle)
+- void setupRecyclerView()
+- void loadMatches()
+- void loadMatchingBabysitters()
+- void loadMatchingJobs()
+- void updateUI(List<Job>)
+- void createNotificationChannel()
++ void sendJobConfirmationNotification(String,String)
++ void scheduleJobReminder(String,long)
++ void approveJob(Job,boolean)
+- void sendNotificationToUser(String,String,String)
+}
+
+
+class com.example.nannynetapp.ExampleInstrumentedTest {
++ void useAppContext()
+}
+note top of com.example.nannynetapp.ExampleInstrumentedTest
+
+ * Instrumented test, which will execute on an Android device.
+ *
+ * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ 
+end note
+
+
+class com.example.nannynetapp.JobsAdapter {
+- Context context
+- List<HashMap<String,String>> jobs
+- DatabaseReference databaseRef
+- boolean isMyOffers
++ <<Create>> JobsAdapter(Context,List<HashMap<String,String>>,boolean)
++ JobViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(JobViewHolder,int)
+- void acceptJob(HashMap<String,String>)
+- void deleteJob(HashMap<String,String>)
+- void sendNotificationToParent(String,String)
+- void setupJobReminder(HashMap<String,String>)
++ int getItemCount()
+}
+
+
+class com.example.nannynetapp.JobsAdapter$JobViewHolder {
+~ TextView locationText
+~ Button actionButton
+~ <<Create>> JobViewHolder(View)
+}
+
+
+class com.example.nannynetapp.ChatPreview {
++ String chatId
++ String displayName
++ String imageUrl
++ String lastMessage
++ Date lastMessageTime
++ <<Create>> ChatPreview()
++ <<Create>> ChatPreview(String,String,String)
++ <<Create>> ChatPreview(String,String,String,String,Date)
+}
+
+
+class com.example.nannynetapp.models.Message {
+- String senderId
+- String receiverId
+- String messageText
+- String imageUrl
+- String timestamp
+- String type
++ <<Create>> Message()
++ <<Create>> Message(String,String,String,String,String,String)
++ String getSenderId()
++ String getReceiverId()
++ String getMessageText()
++ String getImageUrl()
++ String getTimestamp()
++ String getType()
+}
+note left of com.example.nannynetapp.models.Message::type
+ "text", "image", "videoCall"
+end note
+
+
+class com.example.nannynetapp.ParentAdapter {
+- Context context
+- List<Parent> parentList
++ <<Create>> ParentAdapter(Context,List<Parent>)
++ ParentViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ParentViewHolder,int)
++ int getItemCount()
+}
+
+
+class com.example.nannynetapp.ParentAdapter$ParentViewHolder {
+~ TextView nameText
++ <<Create>> ParentViewHolder(View)
+}
+
+
+class com.example.nannynetapp.SignUpActivity {
+- TextInputEditText fullNameInput
+- MaterialButton signUpButton
+- RadioGroup roleGroup
+- FirebaseAuth auth
+- DatabaseReference databaseRef
+# void onCreate(Bundle)
+- void checkIfUserExists()
+- void registerUser()
+- void saveUserToDatabase(String,String,String,String)
+}
+
+
+class com.example.nannynetapp.User {
+- String fullName
++ <<Create>> User()
++ <<Create>> User(String,String,String)
++ String getFullName()
++ String getEmail()
++ String getRole()
+}
+note top of com.example.nannynetapp.User
+ User Model Class
+end note
+
+
+note left of com.example.nannynetapp.User::getFullName()
+ Getters (needed for Firestore)
+end note
+
+class com.example.nannynetapp.ReminderReceiver {
++ void onReceive(Context,Intent)
+}
+
+class com.example.nannynetapp.SearchBabysitterActivity {
+- EditText locationInput
+- Button searchButton
+- RecyclerView jobsRecyclerView
+- TextView noJobsText
+- List<HashMap<String,String>> jobsList
+- JobsAdapter jobsAdapter
+- DatabaseReference databaseRef
+- FirebaseAuth auth
+# void onCreate(Bundle)
+- void initializeViews()
+- void setupRecyclerView()
+- void showDatePicker()
+- void showTimePicker(EditText)
+- void searchJobs()
+- boolean isJobMatching(HashMap<String,String>,String,String,String,String)
+- void updateUI()
++ void scheduleJobReminder(String,String,String)
+}
+
+
+class com.example.nannynetapp.ChatPreviewAdapter {
+- List<ChatPreview> chatList
+- OnChatClickListener listener
++ <<Create>> ChatPreviewAdapter(List<ChatPreview>,OnChatClickListener)
++ ChatViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(ChatViewHolder,int)
++ int getItemCount()
+}
+
+
+interface com.example.nannynetapp.ChatPreviewAdapter$OnChatClickListener {
+~ void onChatClick(ChatPreview)
+}
+
+class com.example.nannynetapp.Message {
+- String senderId
+- Date timestamp
+- String type
+- String content
++ <<Create>> Message()
++ <<Create>> Message(String,Date,String,String)
++ String getSenderId()
++ void setSenderId(String)
++ Date getTimestamp()
++ void setTimestamp(Date)
++ String getType()
++ void setType(String)
++ String getContent()
++ void setContent(String)
+}
+note left of com.example.nannynetapp.Message::type
+ "text", "image", "video"
+end note
+
+
+class com.example.nannynetapp.adapters.MessageAdapter {
+- {static} int TYPE_SENT
+- {static} int TYPE_RECEIVED
+- Context context
+- List<Message> messageList
++ <<Create>> MessageAdapter(Context,List<Message>)
++ int getItemViewType(int)
++ MessageViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(MessageViewHolder,int)
++ int getItemCount()
+}
+
+
+class com.example.nannynetapp.adapters.MessageAdapter$MessageViewHolder {
+~ TextView messageText
+~ ImageView messageImage
++ <<Create>> MessageViewHolder(View)
+}
+
+
+class com.example.nannynetapp.NotificationMessage {
+- String message
++ <<Create>> NotificationMessage()
++ <<Create>> NotificationMessage(String)
++ String getMessage()
+}
+
+
+class com.example.nannynetapp.Babysitter {
+- String name
+- String location
+- String date
+- String startTime
+- String endTime
++ <<Create>> Babysitter()
++ <<Create>> Babysitter(String,String,String,String,String)
++ String getName()
++ String getLocation()
++ String getDate()
++ String getStartTime()
++ String getEndTime()
++ void setName(String)
++ void setLocation(String)
++ void setDate(String)
++ void setStartTime(String)
++ void setEndTime(String)
+}
+
+note left of com.example.nannynetapp.Babysitter::Babysitter()
+ דרוש לפיירבייס
+end note
+
+class com.example.nannynetapp.NotificationHelper {
+- {static} String TAG
++ {static} void showNotification(Context,String,String)
++ {static} void sendPushNotification(Context,String,String,String)
++ {static} void sendFCMNotification(String,String,String)
++ {static} void updateUserFCMToken(String)
+}
+
+
+class com.example.nannynetapp.UserProfileActivity {
+- ImageView profileImage
+- TextView nameText
+- FirebaseFirestore db
+# void onCreate(Bundle)
+- void loadUserProfile(String)
+- void updateUI(DocumentSnapshot)
+}
+
+
+class com.example.nannynetapp.MatchingJobsAdapter {
+- Context context
+- List<Job> jobs
+- String userType
+- DatabaseReference databaseRef
+- MatchingJobsActivity activity
++ <<Create>> MatchingJobsAdapter(Context,List<Job>,String)
++ void updateJobs(List<Job>)
++ JobViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(JobViewHolder,int)
++ int getItemCount()
+}
+
+
+class com.example.nannynetapp.MatchingJobsAdapter$JobViewHolder {
+~ TextView locationText
+~ Button confirmButton
+~ <<Create>> JobViewHolder(View)
+}
+
+
+class com.example.nannynetapp.JobAdapter {
+- List<Job> jobs
+- OnJobClickListener listener
++ <<Create>> JobAdapter(List<Job>,OnJobClickListener)
++ JobViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(JobViewHolder,int)
++ int getItemCount()
+}
+
+
+interface com.example.nannynetapp.JobAdapter$OnJobClickListener {
+~ void onJobClick(Job)
+}
+
+class com.example.nannynetapp.JobAdapter$JobViewHolder {
+- TextView locationText
+- TextView dateTimeText
+- TextView salaryText
+- TextView requirementsText
+- Button actionButton
++ <<Create>> JobViewHolder(View)
++ void bind(Job)
+}
+
+
+class com.example.nannynetapp.MainActivity {
+- LinearLayout loggedInButtons
+- MaterialButton getStartedButton
+- FirebaseAuth auth
+# void onCreate(Bundle)
+# void onResume()
+- void updateUI()
+- void setupButtons()
+}
+
+
+class com.example.nannynetapp.ChatViewHolder {
+~ ImageView image
+~ TextView name
++ <<Create>> ChatViewHolder(View)
+}
+
+
+class com.example.nannynetapp.ChatListActivity {
+- RecyclerView userList
+- FirebaseFirestore db
+- FirebaseAuth auth
+# void onCreate(Bundle)
+- void loadUsers()
+- void openChat(User)
+}
+
+
+class com.example.nannynetapp.ChatListActivity$UserAdapter {
+- List<User> users
++ <<Create>> UserAdapter(List<User>)
++ UserViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(UserViewHolder,int)
++ int getItemCount()
+}
+
+
+class com.example.nannynetapp.ChatListActivity$UserAdapter$UserViewHolder {
+- TextView nameText
+- TextView typeText
++ <<Create>> UserViewHolder(View)
++ void bind(User)
+}
+
+
+class com.example.nannynetapp.MessageAdapter {
+- Context context
+- ArrayList<Message> messageList
+- String currentUserId
+- SimpleDateFormat timeFormat
+- SimpleDateFormat dateFormat
++ <<Create>> MessageAdapter(Context,ArrayList<Message>,String)
++ MessageViewHolder onCreateViewHolder(ViewGroup,int)
++ void onBindViewHolder(MessageViewHolder,int)
+- boolean isSameDay(Date,Date)
+- String getDateHeader(Date)
++ int getItemCount()
+- void showFullScreenMedia(String,String)
+}
+
+
+class com.example.nannynetapp.SearchJobActivity {
+- TextInputEditText locationInput
+- ChipGroup requirementsChipGroup
+- Button searchButton
+- RecyclerView resultsRecyclerView
+- TextView titleText
+- Calendar selectedDate
+- FirebaseFirestore db
+- FirebaseAuth auth
+- boolean isBabysitterMode
+- Gson gson
+# void onCreate(Bundle)
+- void initializeViews()
+- void setupDateTimePickers()
+- void setupRequirementsChips()
+- void setupSearchButton()
+- void showDatePicker()
+- void showTimePicker(TextInputEditText)
+- void updateDateInput()
+- void performSearch()
+- boolean validateInputs()
+- Job createJobFromInputs()
+- boolean isJobMatching(Job,Job)
+- boolean isTimeOverlapping(Job,Job)
+- boolean isSalaryOverlapping(Job,Job)
+- boolean areRequirementsMatching(Job,Job)
+- void displayResults(List<Job>)
+- void saveJobMatch(Job)
+}
+
+
+class com.example.nannynetapp.JobDetailsActivity {
+- TextView locationText
+- Button approveButton
+- FirebaseFirestore db
+- FirebaseAuth auth
+- String jobId
+- Job currentJob
+- String userType
+# void onCreate(Bundle)
+- void loadJobDetails()
+- void updateUI()
+- void setupButtons()
+}
+
+
+class com.example.nannynetapp.User {
+- String userId
+- String name
+- String email
+- String type
+- String phone
+- String location
+- String profileImageUrl
+- String bio
+- double rating
+- int ratingCount
++ <<Create>> User()
++ <<Create>> User(String,String,String,String)
++ String getUserId()
++ void setUserId(String)
++ String getName()
++ void setName(String)
++ String getEmail()
++ void setEmail(String)
++ String getType()
++ void setType(String)
++ String getPhone()
++ void setPhone(String)
++ String getLocation()
++ void setLocation(String)
++ String getProfileImageUrl()
++ void setProfileImageUrl(String)
++ String getBio()
++ void setBio(String)
++ double getRating()
++ void setRating(double)
++ int getRatingCount()
++ void setRatingCount(int)
++ void addRating(double)
+}
+note left of com.example.nannynetapp.User::type
+ "parent" or "babysitter"
+end note
+
+note left of com.example.nannynetapp.User::User()
+ Empty constructor needed for Firestore
+end note
+note right of com.example.nannynetapp.User::getUserId()
+ Getters and Setters
+end note
+
+class com.example.nannynetapp.HomeActivity {
+- Button searchBabysitterBtn
+- FirebaseAuth auth
+- DatabaseReference databaseRef
+- String userType
+# void onCreate(Bundle)
+}
+note left of com.example.nannynetapp.HomeActivity::userType
+ משתנה לאחסון סוג המשתמש
+end note
+
+
+class com.example.nannynetapp.LoginActivity {
+- TextInputEditText emailInput
+- MaterialButton loginButton
+- TextView forgotPassword
+- FirebaseAuth auth
+- DatabaseReference databaseRef
+# void onCreate(Bundle)
+- void loginUser()
+}
+
+
+class com.example.nannynetapp.ForgotPasswordActivity {
+- TextInputEditText inputEmail
+- MaterialButton btnResetPassword
+- FirebaseAuth auth
+# void onCreate(Bundle)
+- void resetPassword()
+}
+
+
+class com.example.nannynetapp.ChatActivity {
+# void onCreate(Bundle)
+}
+
+
+
+com.example.nannynetapp.ViewHolder <|-- com.example.nannynetapp.MessageViewHolder
+androidx.appcompat.app.AppCompatActivity <|-- com.example.nannynetapp.SettingsActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.nannynetapp.SearchParentActivity
+androidx.fragment.app.Fragment <|-- com.example.nannynetapp.ChatMessageFragment
+com.example.nannynetapp.Adapter <|-- com.example.nannynetapp.BabysitterAdapter
+com.example.nannynetapp.BabysitterAdapter +.. com.example.nannynetapp.BabysitterAdapter$BabySitterViewHolder
+com.example.nannynetapp.ViewHolder <|-- com.example.nannynetapp.BabysitterAdapter$BabySitterViewHolder
+androidx.fragment.app.Fragment <|-- com.example.nannynetapp.ChatFragment
+androidx.appcompat.app.AppCompatActivity <|-- com.example.nannynetapp.MatchingJobsActivity
+com.example.nannynetapp.Adapter <|-- com.example.nannynetapp.JobsAdapter
+com.example.nannynetapp.JobsAdapter +.. com.example.nannynetapp.JobsAdapter$JobViewHolder
+com.example.nannynetapp.ViewHolder <|-- com.example.nannynetapp.JobsAdapter$JobViewHolder
+com.example.nannynetapp.Adapter <|-- com.example.nannynetapp.ParentAdapter
+com.example.nannynetapp.ParentAdapter +.. com.example.nannynetapp.ParentAdapter$ParentViewHolder
+com.example.nannynetapp.ViewHolder <|-- com.example.nannynetapp.ParentAdapter$ParentViewHolder
+androidx.appcompat.app.AppCompatActivity <|-- com.example.nannynetapp.SignUpActivity
+android.content.BroadcastReceiver <|-- com.example.nannynetapp.ReminderReceiver
+androidx.appcompat.app.AppCompatActivity <|-- com.example.nannynetapp.SearchBabysitterActivity
+com.example.nannynetapp.Adapter <|-- com.example.nannynetapp.ChatPreviewAdapter
+com.example.nannynetapp.ChatPreviewAdapter +.. com.example.nannynetapp.ChatPreviewAdapter$OnChatClickListener
+com.example.nannynetapp.adapters.Adapter <|-- com.example.nannynetapp.adapters.MessageAdapter
+com.example.nannynetapp.adapters.MessageAdapter +.. com.example.nannynetapp.adapters.MessageAdapter$MessageViewHolder
+com.example.nannynetapp.adapters.ViewHolder <|-- com.example.nannynetapp.adapters.MessageAdapter$MessageViewHolder
+androidx.appcompat.app.AppCompatActivity <|-- com.example.nannynetapp.UserProfileActivity
+com.example.nannynetapp.Adapter <|-- com.example.nannynetapp.MatchingJobsAdapter
+com.example.nannynetapp.MatchingJobsAdapter +.. com.example.nannynetapp.MatchingJobsAdapter$JobViewHolder
+com.example.nannynetapp.ViewHolder <|-- com.example.nannynetapp.MatchingJobsAdapter$JobViewHolder
+com.example.nannynetapp.Adapter <|-- com.example.nannynetapp.JobAdapter
+com.example.nannynetapp.JobAdapter +.. com.example.nannynetapp.JobAdapter$OnJobClickListener
+com.example.nannynetapp.JobAdapter +.. com.example.nannynetapp.JobAdapter$JobViewHolder
+com.example.nannynetapp.ViewHolder <|-- com.example.nannynetapp.JobAdapter$JobViewHolder
+androidx.appcompat.app.AppCompatActivity <|-- com.example.nannynetapp.MainActivity
+com.example.nannynetapp.ViewHolder <|-- com.example.nannynetapp.ChatViewHolder
+androidx.appcompat.app.AppCompatActivity <|-- com.example.nannynetapp.ChatListActivity
+com.example.nannynetapp.ChatListActivity +.. com.example.nannynetapp.ChatListActivity$UserAdapter
+com.example.nannynetapp.Adapter <|-- com.example.nannynetapp.ChatListActivity$UserAdapter
+com.example.nannynetapp.ChatListActivity$UserAdapter +.. com.example.nannynetapp.ChatListActivity$UserAdapter$UserViewHolder
+com.example.nannynetapp.ViewHolder <|-- com.example.nannynetapp.ChatListActivity$UserAdapter$UserViewHolder
+com.example.nannynetapp.Adapter <|-- com.example.nannynetapp.MessageAdapter
+androidx.appcompat.app.AppCompatActivity <|-- com.example.nannynetapp.SearchJobActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.nannynetapp.JobDetailsActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.nannynetapp.HomeActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.nannynetapp.LoginActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.nannynetapp.ForgotPasswordActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.nannynetapp.ChatActivity
+@enduml
